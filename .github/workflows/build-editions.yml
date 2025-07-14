@@ -3,17 +3,7 @@ on:
       inputs:
         acr:
           type: string
-        dockerfile_path:
-          type: string
-        docker_context:
-          type: string
         harbor:
-          type: string
-        module:
-          type: string
-        platform:
-          type: string
-        tag:
           type: string
         version:
           type: string
@@ -38,8 +28,8 @@ jobs:
             module: editions-wfm-professional-build
             dockerfile_path: editions-wfm-professional/dockerfile.build
             docker_context: .
-            acr: iqgeoproddev.azurecr.io
-            harbor: harbor.delivery.iqgeo.cloud
+            acr: ${{ inputs.acr }}
+            harbor: ${{ inputs.harbor }}
         secrets: inherit
     build-editions-wfm-professional-appserver-tools:
         needs: build-editions-wfm-professional-build
@@ -58,8 +48,8 @@ jobs:
             module: ${{ matrix.module }}
             dockerfile_path: ${{ matrix.dockerfile_path }}
             docker_context: ./editions-wfm-professional
-            acr: iqgeoproddev.azurecr.io
-            harbor: harbor.delivery.iqgeo.cloud
+            acr: ${{ inputs.acr }}
+            harbor: ${{ inputs.harbor }}
         secrets: inherit
     build-editions-wfm-telecom-build:
         # needs: build-injectors
@@ -69,8 +59,8 @@ jobs:
             module: editions-wfm-telecom-build
             dockerfile_path: editions-wfm-telecom/dockerfile.build
             docker_context: .
-            acr: iqgeoproddev.azurecr.io
-            harbor: harbor.delivery.iqgeo.cloud
+            acr: ${{ inputs.acr }}
+            harbor: ${{ inputs.harbor }}
         secrets: inherit
     build-editions-wfm-telecom-appserver-tools:
         needs: build-editions-wfm-telecom-build
@@ -89,6 +79,6 @@ jobs:
             module: ${{ matrix.module }}
             dockerfile_path: ${{ matrix.dockerfile_path }}
             docker_context: ./editions-wfm-telecom
-            acr: iqgeoproddev.azurecr.io
-            harbor: harbor.delivery.iqgeo.cloud
+            acr: ${{ inputs.acr }}
+            harbor: ${{ inputs.harbor }}
         secrets: inherit
