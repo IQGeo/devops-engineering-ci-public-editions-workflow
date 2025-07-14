@@ -1,0 +1,94 @@
+on:
+    workflow_call:
+      inputs:
+        acr:
+          type: string
+        dockerfile_path:
+          type: string
+        docker_context:
+          type: string
+        harbor:
+          type: string
+        module:
+          type: string
+        platform:
+          type: string
+        tag:
+          type: string
+        version:
+          type: string
+      secrets:
+          REGISTRY_LOGIN_SERVER:
+              required: true
+          REGISTRY_USERNAME:
+              required: true
+          REGISTRY_PASSWORD:
+              required: true
+          HARBOR_CLI_SECRET:
+              required: true
+          HARBOR_USERNAME:
+            required: true
+
+jobs:
+    build-editions-wfm-professional-build:
+        # needs: build-injectors
+        uses: IQGeo/devops-engineering-ci-public-build-multi-arch-workflow/.github/workflows/build-multi-arch.yml@main
+        with:
+            version: '9.9.30'
+            module: editions-wfm-professional-build
+            dockerfile_path: editions-wfm-professional/dockerfile.build
+            docker_context: .
+            acr: iqgeoproddev.azurecr.io
+            harbor: harbor.delivery.iqgeo.cloud
+        secrets: inherit
+    build-editions-wfm-professional-appserver-tools:
+        needs: build-editions-wfm-professional-build
+        strategy:
+            matrix:
+                module: [ editions-wfm-professional-appserver, editions-wfm-professional-tools]
+                dockerfile_path: [ editions-wfm-professional/dockerfile.appserver, editions-wfm-professional/dockerfile.tools]
+                exclude:
+                    - module: editions-wfm-professional-appserver
+                      dockerfile_path: editions-wfm-professional/dockerfile.tools
+                    - module: editions-wfm-professional-tools
+                      dockerfile_path: editions-wfm-professional/dockerfile.appserver
+        uses: IQGeo/devops-engineering-ci-public-build-multi-arch-workflow/.github/workflows/build-multi-arch.yml@main
+        with:
+            version: '9.9.30'
+            module: ${{ matrix.module }}
+            dockerfile_path: ${{ matrix.dockerfile_path }}
+            docker_context: ./editions-wfm-professional
+            acr: iqgeoproddev.azurecr.io
+            harbor: harbor.delivery.iqgeo.cloud
+        secrets: inherit
+    build-editions-wfm-telecom-build:
+        # needs: build-injectors
+        uses: IQGeo/devops-engineering-ci-public-build-multi-arch-workflow/.github/workflows/build-multi-arch.yml@main
+        with:
+            version: '9.9.30'
+            module: editions-wfm-telecom-build
+            dockerfile_path: editions-wfm-telecom/dockerfile.build
+            docker_context: .
+            acr: iqgeoproddev.azurecr.io
+            harbor: harbor.delivery.iqgeo.cloud
+        secrets: inherit
+    build-editions-wfm-telecom-appserver-tools:
+        needs: build-editions-wfm-telecom-build
+        strategy:
+            matrix:
+                module: [ editions-wfm-telecom-appserver, editions-wfm-telecom-tools]
+                dockerfile_path: [ editions-wfm-telecom/dockerfile.appserver, editions-wfm-telecom/dockerfile.tools]
+                exclude:
+                    - module: editions-wfm-telecom-appserver
+                      dockerfile_path: editions-wfm-telecom/dockerfile.tools
+                    - module: editions-wfm-telecom-tools
+                      dockerfile_path: editions-wfm-telecom/dockerfile.appserver
+        uses: IQGeo/devops-engineering-ci-public-build-multi-arch-workflow/.github/workflows/build-multi-arch.yml@main
+        with:
+            version: '9.9.30'
+            module: ${{ matrix.module }}
+            dockerfile_path: ${{ matrix.dockerfile_path }}
+            docker_context: ./editions-wfm-telecom
+            acr: iqgeoproddev.azurecr.io
+            harbor: harbor.delivery.iqgeo.cloud
+        secrets: inherit
