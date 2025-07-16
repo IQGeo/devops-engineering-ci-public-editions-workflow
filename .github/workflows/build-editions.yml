@@ -22,7 +22,7 @@ on:
 jobs:
     build-editions-wfm-professional-build:
         # needs: build-injectors
-        uses: IQGeo/devops-engineering-ci-public-build-multi-arch-workflow/.github/workflows/build-multi-arch.yml@test-build-and-push
+        uses: IQGeo/devops-engineering-ci-public-build-multi-arch-workflow/.github/workflows/build-multi-arch.yml@main
         with:
             version: '9.9.30'
             module: editions-wfm-professional-build
@@ -42,7 +42,7 @@ jobs:
                       dockerfile_path: editions-wfm-professional/dockerfile.tools
                     - module: editions-wfm-professional-tools
                       dockerfile_path: editions-wfm-professional/dockerfile.appserver
-        uses: IQGeo/devops-engineering-ci-public-build-multi-arch-workflow/.github/workflows/build-multi-arch.yml@test-build-and-push
+        uses: IQGeo/devops-engineering-ci-public-build-multi-arch-workflow/.github/workflows/build-multi-arch.yml@main
         with:
             version: '9.9.30'
             module: ${{ matrix.module }}
@@ -53,7 +53,7 @@ jobs:
         secrets: inherit
     build-editions-wfm-telecom-build:
         # needs: build-injectors
-        uses: IQGeo/devops-engineering-ci-public-build-multi-arch-workflow/.github/workflows/build-multi-arch.yml@test-build-and-push
+        uses: IQGeo/devops-engineering-ci-public-build-multi-arch-workflow/.github/workflows/build-multi-arch.yml@main
         with:
             version: '9.9.30'
             module: editions-wfm-telecom-build
@@ -73,7 +73,7 @@ jobs:
                       dockerfile_path: editions-wfm-telecom/dockerfile.tools
                     - module: editions-wfm-telecom-tools
                       dockerfile_path: editions-wfm-telecom/dockerfile.appserver
-        uses: IQGeo/devops-engineering-ci-public-build-multi-arch-workflow/.github/workflows/build-multi-arch.yml@test-build-and-push
+        uses: IQGeo/devops-engineering-ci-public-build-multi-arch-workflow/.github/workflows/build-multi-arch.yml@main
         with:
             version: '9.9.30'
             module: ${{ matrix.module }}
