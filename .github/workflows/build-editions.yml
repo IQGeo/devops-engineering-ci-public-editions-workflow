@@ -54,6 +54,7 @@ jobs:
             docker_context: ./editions-wfm-professional
             acr: ${{ inputs.acr }}
             harbor: ${{ inputs.harbor }}
+            updated_tags: ${{ inputs.updated_tags }}
         secrets: inherit
     build-editions-wfm-telecom-build:
         # needs: build-injectors
@@ -65,6 +66,7 @@ jobs:
             docker_context: .
             acr: ${{ inputs.acr }}
             harbor: ${{ inputs.harbor }}
+            updated_tags: ${{ inputs.updated_tags }}
         secrets: inherit
     build-editions-wfm-telecom-appserver-tools:
         needs: build-editions-wfm-telecom-build
@@ -85,4 +87,5 @@ jobs:
             docker_context: ./editions-wfm-telecom
             acr: ${{ inputs.acr }}
             harbor: ${{ inputs.harbor }}
+            updated_tags: ${{ inputs.updated_tags }}
         secrets: inherit
