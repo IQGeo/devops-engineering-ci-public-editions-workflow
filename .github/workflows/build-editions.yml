@@ -5,6 +5,9 @@ on:
           type: string
         harbor:
           type: string
+        updated_tags:
+          description: 'Comma-seperated list of new tags'
+          type: string
         version:
           type: string
       secrets:
@@ -30,6 +33,7 @@ jobs:
             docker_context: .
             acr: ${{ inputs.acr }}
             harbor: ${{ inputs.harbor }}
+            updated_tags: ${{ inputs.updated_tags }}
         secrets: inherit
     build-editions-wfm-professional-appserver-tools:
         needs: build-editions-wfm-professional-build
