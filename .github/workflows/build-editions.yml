@@ -1,14 +1,24 @@
+name: Build wfm-professional and wfm-telecom images
+description: 'Reusable workflow to build wfm-professional and wfm-telecom images that can be plugged into wfm, comms, and platform builds'
+
 on:
     workflow_call:
       inputs:
         acr:
+          description: 'IQGeos Azure container registry server name'
+          required: true
           type: string
         harbor:
+          description: 'IQGeos Harbor container registry server name'
+          required: true
           type: string
         updated_tags:
-          description: 'Comma-seperated list of new tags'
+          description: 'Comma-seperated list of new tags to retag the multi arch image'
+          required: true
           type: string
         version:
+          description: 'Version to build'
+          required: true
           type: string
       secrets:
           REGISTRY_LOGIN_SERVER:
@@ -24,7 +34,6 @@ on:
 
 jobs:
     build-editions-wfm-professional-build:
-        # needs: build-injectors
         uses: IQGeo/devops-engineering-ci-public-build-multi-arch-workflow/.github/workflows/build-multi-arch.yml@main
         with:
             version: ${{ inputs.version }}
@@ -57,7 +66,6 @@ jobs:
             updated_tags: ${{ inputs.updated_tags }}
         secrets: inherit
     build-editions-wfm-telecom-build:
-        # needs: build-injectors
         uses: IQGeo/devops-engineering-ci-public-build-multi-arch-workflow/.github/workflows/build-multi-arch.yml@main
         with:
             version: ${{ inputs.version }}
