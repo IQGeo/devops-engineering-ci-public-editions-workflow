@@ -33,6 +33,14 @@ on:
             required: true
 
 jobs:
+    editions-version:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Determine editions version
+              run: |
+                    "run skopeo to determine latest value of editions image(s)?"
+                    "increment the major, minor, or patch version by 1? How will editions versioning be handled?"
+                    "set new version of editions based on what the latest version is and increment it to pass downstream to image builds"
     build-editions-wfm-professional-build:
         uses: IQGeo/devops-engineering-ci-public-build-multi-arch-workflow/.github/workflows/build-multi-arch.yml@main
         with:
